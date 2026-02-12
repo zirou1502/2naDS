@@ -9,5 +9,6 @@ namespace CTRPluginFramework
 {
     using StringVector = std::vector<std::string>;
 
+    void test(MenuEntry* entry);
 }
 #endif
