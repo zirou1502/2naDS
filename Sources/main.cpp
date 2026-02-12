@@ -71,6 +71,7 @@ void InitMenu(PluginMenu& menu) {
 
         MessageBox("UA", body)();
     });*/
+    menu += new MenuEntry("Test", nullptr, test, "テストです");
 }
 
 int main(void) {
