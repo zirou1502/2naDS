@@ -14,7 +14,7 @@ PLGINFO 	:= 	CTRPluginFramework.plgInfo
 
 BUILD		:= 	Build
 INCLUDES	:= 	Includes
-SOURCES 	:= 	Sources
+SOURCES 	:= 	Sources Sources/Memory Sources/Render
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -31,7 +31,7 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 ASFLAGS		:=	$(ARCH)
 LDFLAGS		:= -T $(TOPDIR)/3gx.ld $(ARCH) -Os -Wl,--gc-sections,--strip-discarded,--strip-debug
 
-LIBS		:= -lctrpf -lctru
+LIBS		:= -lfreetype -lbz2 -lpng -lz -lctrpf -lctru 
 LIBDIRS		:= 	$(CTRPFLIB) $(CTRULIB) $(PORTLIBS)
 
 #---------------------------------------------------------------------------------
@@ -56,6 +56,7 @@ export LD 		:= 	$(CXX)
 export OFILES	:=	$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I $(CURDIR)/$(dir) ) \
 					$(foreach dir,$(LIBDIRS),-I $(dir)/include) \
+					-I $(DEVKITPRO)/portlibs/3ds/include/freetype2 \
 					-I $(CURDIR)/$(BUILD)
 
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L $(dir)/lib)
