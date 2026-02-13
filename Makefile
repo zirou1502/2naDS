@@ -14,7 +14,7 @@ PLGINFO 	:= 	CTRPluginFramework.plgInfo
 
 BUILD		:= 	Build
 INCLUDES	:= 	Includes
-SOURCES 	:= 	Sources Sources/Memory Sources/Render
+SOURCES 	:= 	Sources Sources/Memory Sources/Render Sources/Render/Fonts
 
 #---------------------------------------------------------------------------------
 # options for code generation
