@@ -1,4 +1,5 @@
 #include <3ds.h>
+#include "Extra.hpp"
 
 #include <CTRPluginFramework.hpp>
 #include <vector>
@@ -18,9 +19,8 @@ static void ToggleTouchscreenForceOn(void) {
         return;
     }
 
-    static const std::vector<u32> pattern = {
-        0xE59F10C0, 0xE5840004, 0xE5841000, 0xE5DD0000, 0xE5C40008, 0xE28DD03C,
-        0xE8BD80F0, 0xE5D51001, 0xE1D400D4, 0xE3510003, 0x159F0034, 0x1A000003};
+    static const std::vector<u32> pattern = {0xE59F10C0, 0xE5840004, 0xE5841000, 0xE5DD0000, 0xE5C40008, 0xE28DD03C,
+                                             0xE8BD80F0, 0xE5D51001, 0xE1D400D4, 0xE3510003, 0x159F0034, 0x1A000003};
 
     Result res;
     Handle processHandle;
@@ -32,9 +32,8 @@ static void ToggleTouchscreenForceOn(void) {
 
     svcGetProcessInfo(&textTotalSize, processHandle, 0x10002);
     svcGetProcessInfo(&startAddress, processHandle, 0x10005);
-    if (R_FAILED(svcMapProcessMemoryEx(CUR_PROCESS_HANDLE, 0x14000000,
-                                       processHandle, (u32)startAddress,
-                                       textTotalSize)))
+    if (R_FAILED(
+            svcMapProcessMemoryEx(CUR_PROCESS_HANDLE, 0x14000000, processHandle, (u32)startAddress, textTotalSize)))
         goto exit;
 
     found = (u32*)Utils::Search<u32>(0x14000000, (u32)textTotalSize, pattern);
@@ -52,11 +51,17 @@ exit:
 
 // This function is called before main and before the game starts
 // Useful to do code edits safely
-void PatchProcess(FwkSettings& settings) { ToggleTouchscreenForceOn(); }
+void PatchProcess(FwkSettings& settings) {
+    ToggleTouchscreenForceOn();
+    PatchProcessFont();
+}
 
 // This function is called when the process exits
 // Useful to save settings, undo patchs or clean up things
-void OnProcessExit(void) { ToggleTouchscreenForceOn(); }
+void OnProcessExit(void) {
+    OnProcessExitFont();
+    ToggleTouchscreenForceOn();
+}
 
 void InitMenu(PluginMenu& menu) {
     // Create your entries here, or elsewhere
@@ -75,23 +80,11 @@ void InitMenu(PluginMenu& menu) {
 }
 
 int main(void) {
-    PluginMenu* menu =
-        new PluginMenu("Action Replay", 0, 7, 4,
-                       "A blank template plugin.\nGives you access to the "
-                       "ActionReplay and others tools.");
-
-    // Synnchronize the menu with frame event
+    PluginMenu* menu = new PluginMenu("2naDS", 0, 0, 0, "2naDS Plugin");
     menu->SynchronizeWithFrame(true);
-
-    // Init our menu entries & folders
     InitMenu(*menu);
-
-    // Launch menu and mainloop
     menu->Run();
-
     delete menu;
-
-    // Exit plugin
-    return (0);
+    return 0;
 }
 }  // namespace CTRPluginFramework
