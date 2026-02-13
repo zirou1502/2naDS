@@ -9,6 +9,11 @@
 
 namespace CTRPluginFramework {
 
+extern "C" {
+extern const u8 Leipzig2_ttf[];
+extern const int Leipzig2_ttf_size;
+}
+
 class Font {
    public:
     typedef struct GlyphInfo {
@@ -25,13 +30,10 @@ class Font {
     int GetFontSize(void);
     bool LoadChar(const u32& c);
     GlyphInfo GetGlyphInfo(void);
-    // u8* GetBmpBuffer(void);
 
    private:
     FT_Face _face;
-    std::string _file_name;
     int _font_size;
-    u8* _buf;
     GlyphInfo _info;
 };
 
