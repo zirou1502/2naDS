@@ -76,7 +76,7 @@ void InitMenu(PluginMenu& menu) {
 
         MessageBox("UA", body)();
     });*/
-    menu += new MenuEntry("Test", nullptr, test, "テストです");
+    menu += new MenuEntry("WatchPoint", nullptr, Watchpoint, "watchpoint");
 }
 
 int main(void) {
