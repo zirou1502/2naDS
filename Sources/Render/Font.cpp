@@ -1,11 +1,13 @@
 #include "Render/Font.hpp"
 
 #include "Extra.hpp"
+#include "Render/Fonts/AmaticSC.h"
 #include "Render/Fonts/Leipzig.h"
+#include "Render/Fonts/misaki.h"
 
 namespace CTRPluginFramework {
 
-Font::Font(const std::string& file_name) : _face(nullptr) {
+Font::Font() : _face(nullptr) {
     int res;
     FT_Library library;
     library = GetFTLibrary();
@@ -55,6 +57,7 @@ Font::GlyphInfo Font::GetGlyphInfo(void) {
     _info.left = slot->bitmap_left;
     _info.top = slot->bitmap_top;
     _info.pitch = slot->bitmap.pitch;
+    _info.advance = slot->advance.x;
     return _info;
 }
 

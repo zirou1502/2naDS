@@ -23,8 +23,9 @@ class Font {
         int left;
         int top;
         int pitch;
+        int advance;
     } GlyphInfo;
-    Font(const std::string& file_name);
+    Font();
     ~Font();
     bool SetFontSize(int size);
     int GetFontSize(void);
